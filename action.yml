@@ -1,0 +1,25 @@
+name: "Run `permifrost` GitHub Action"
+description: "A GitHub Action that grant & revoke Snowflake roles access "
+
+inputs:
+  spec:
+    description: "Spec file"
+    required: true
+  dry:
+    description: "Dry run"
+    required: false
+    default: "true"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10.8"
+    - name: Install Dependencies
+      run: pip install -r ./permifrost/requirements.txt
+      shell: bash
+    - name: Run permifrost
+      run: permifrost run ${{ inputs.spec }}" --dry
+      shell: bash
